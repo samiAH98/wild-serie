@@ -1,0 +1,22 @@
+// $color_1: #CFAF95;
+// $color_text: black;
+// $background-color: #AE9481;
+// $navbar_color: #CFAF95;
+
+body {
+    background-color: #AE9481;
+}
+
+.container-fluid a {
+    color: black;
+}
+
+.couleurnav {
+    background-color: #CFAF95;
+}
+
+#navbarSupportedContent a {
+    color: black;
+}
+
+@import "~bootstrap/scss/bootstrap";

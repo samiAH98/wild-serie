@@ -1,10 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Wild Series{% endblock %}
-
-{% block body %}
-<h1>{{ website }} index</h1>
-<img src="{{ asset('build/images/logo.png') }}" alt=""/>
-
-<a href="{{ path('program_show', {id: 4}) }}">Retour vers le Futur</a>
-{% endblock %}
+{# ... #}
+    {% for program in programs %}
+        <div>
+            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+            <p>{{ program.synopsis }}</p>
+            {# Lien vers la fiche de la série : #}
+            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+        </div>
+{# ... #}

@@ -1,22 +1,21 @@
-// $color_1: #CFAF95;
-// $color_text: black;
-// $background-color: #AE9481;
-// $navbar_color: #CFAF95;
+
+$primary: #D47FFC;
+$secondary: #D9d9d9;
 
 body {
-    background-color: #AE9481;
+    background-color: whitesmoke;
+    color: $secondary;
 }
 
-.container-fluid a {
-    color: black;
+$theme-colors: (
+        "primary": $primary,
+        "secondary": $secondary
+);
+
+.navnav {
+    background-color: $primary;
+    color: $secondary;
 }
 
-.couleurnav {
-    background-color: #CFAF95;
-}
-
-#navbarSupportedContent a {
-    color: black;
-}
 
 @import "~bootstrap/scss/bootstrap";

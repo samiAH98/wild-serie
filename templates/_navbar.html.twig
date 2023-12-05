@@ -1,46 +1,18 @@
-{% block stylesheets %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('assets/styles/app.css') }}">
+{% block header %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navnav">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/program">Program</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/category">Category</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
 {% endblock %}
-
-<nav class="navbar navbar-expand-lg couleurnav">
-  <div class="container-fluid d-flex justify-content-between">
-   <a class="navbar-brand" href="#">Wild Series</a>
-
-                <ul class="nav-item">
-                <a class="nav-link active text-noir" aria-current="page" href="{{ path('app_index') }}">Home</a>
-                <a class="nav-link active text-noir" aria-current="page" href="/category">Category</a>
-                <a class="nav-link active text-noir" aria-current="page" href="/program">Program</a>
-
-              </ul>  
-      <!-- Avatar -->
-
-<div class="dropdown">
-  <a
-    class="dropdown-toggle d-flex align-items-center"
-    href="#"
-    role="button"
-   data-bs-toggle="dropdown" 
-    aria-expanded="false"
-  >
-    <img
-      src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-      class="rounded-circle"
-      height="25"
-      alt="Black and White Portrait of a Man"
-      loading="lazy"
-    />
-  </a>
-  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuAvatar">
-    <li><a class="dropdown-item" href="#navbarDropdownMenuAvatar">Mon compte</a></li>
-    <li><a class="dropdown-item" href="#navbarDropdownMenuAvatar">Mes favoris</a></li>
-    <li>
-      <a class="dropdown-item" href="#">Se déconnecter</a>
-    </li>
-  </ul>
-</div>
-
-</nav>
-    
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

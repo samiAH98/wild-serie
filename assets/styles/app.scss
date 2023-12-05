@@ -1,11 +1,7 @@
+@import "~bootstrap/scss/bootstrap";
 
 $primary: #D47FFC;
 $secondary: #D9d9d9;
-
-body {
-    background-color: whitesmoke;
-    color: $secondary;
-}
 
 $theme-colors: (
         "primary": $primary,
@@ -17,5 +13,7 @@ $theme-colors: (
     color: $secondary;
 }
 
-
-@import "~bootstrap/scss/bootstrap";
+body {
+    background-color: #85b3c2;
+    color: $secondary;
+}

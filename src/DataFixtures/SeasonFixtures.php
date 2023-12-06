@@ -15,7 +15,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         foreach(ProgramFixtures::getTitles() as $program){
-            $year = $faker->year();
+             $year = $faker->year(); 
             for($i = 1; $i < 6; $i++) {
                 $season = new Season();
                 $season->setNumber($i);

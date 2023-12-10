@@ -3,12 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Program;
+use App\Entity\Category;
+use Doctrine\ORM\Mapping\Entity;
+use Faker\Provider\ar_EG\Text;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 
 class ProgramType extends AbstractType
@@ -21,7 +26,8 @@ class ProgramType extends AbstractType
             ->add('poster', TextType::class)
             ->add('country', TextType::class)
             ->add('year', IntegerType::class)
-            ->add('category', TextType::class)
+            ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name'])
+
         ;
     }
 

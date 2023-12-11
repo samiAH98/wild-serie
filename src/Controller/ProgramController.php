@@ -42,10 +42,11 @@ class ProgramController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->persist($program);
         $entityManager->flush(); 
-        return $this->redirectToRoute('program_index');
+        $this->addFlash('success', 'Le nouveau programme a été ajouté avec succès.');
         // Deal with the submitted data
         // For example : persiste & flush the entity
         // And redirect to a route that display the result
+        return $this->redirectToRoute('program_index');
     }
 
     // Render the form
@@ -85,16 +86,38 @@ public function show(Program $program): Response
         ]);
     }
 
-    /* #[Route('/show/{programId}/seasons/{seasonId}', name: 'season_show', requirements: ['programId'=>'\d+', 'seasonId'=>'\d+'], methods: ['GET'])]
-    public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository): Response
+    #[Route('/{id}/edit', name: 'edit')]
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
-        $program = $programRepository->findOneBy(['id' => $programId]);
-        $season = $seasonRepository->findOneBy(['id' => $seasonId]);
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
 
-        return $this->render('program/season_show.html.twig', [
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Le programme a été mis à jour avec succès.');
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
             'program' => $program,
-            'season' => $season,
+            'form' => $form,
         ]);
+    }
 
-    } */
+    #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($program);
+            $entityManager->flush();
+
+            $this->addFlash('danger', 'Le programme a été supprimé.');
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->redirectToRoute('program_index');
+    }
+    
 }

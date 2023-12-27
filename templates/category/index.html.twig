@@ -3,14 +3,19 @@
     {% block title %}All categories{% endblock %}
    
     {% block body %}
-        <h1>  <a href="new">Ajouter une catégorie</a> </h1>
+        <h1>  <a>Toutes les catégories</a> </h1>
+
         {% for category in categories %}
             <div>
-                <h2>{{ loop.index }} / {{ category.name }} </h2>
+                <a href="new" class="btn btn-primary">Ajouter une catégorie</a>
+            </div>
+            <div class="card text-center">
+            <div class="card-body">
+                <h2 class="card-title">{{ loop.index }} / {{ category.name }} </h2>
                 <a href="{{ path("category_show", { categoryName: category.name }) }}">Voir la fiche</a>
             </div>
         {% else %}
-            Aucune série trouvée.
+            Aucune catégory trouvée.
         {% endfor %}
         <a href="{{ path('app_index') }}">
             Retour à l'accueil

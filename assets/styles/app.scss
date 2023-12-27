@@ -1,19 +1,22 @@
-@import "~bootstrap/scss/bootstrap";
+ @import "~bootstrap/scss/bootstrap";
 
-$primary: #D47FFC;
-$secondary: #D9d9d9;
 
-$theme-colors: (
-        "primary": $primary,
-        "secondary": $secondary
-);
 
-.navnav {
-    background-color: $primary;
-    color: $secondary;
-}
+ .navbar-nav {
+   background-color: #190f59;
+   font-family: Verdana, Helvetica, sans-serif;
 
-body {
-    background-color: #85b3c2;
-    color: $secondary;
-}
+ }
+
+
+ body {
+   background-color: black;
+   color: #c90c0f;
+   font-family: Verdana, Helvetica, sans-serif;
+ }
+
+
+
+
+
+

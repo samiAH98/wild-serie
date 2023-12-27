@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Form\ProgramType;
 use App\Service\ProgramDuration;
+use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -29,7 +31,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new')]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger) : Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, SluggerInterface $slugger) : Response
 {
     // Create a new Category Object
     $program = new Program();
@@ -45,6 +47,14 @@ class ProgramController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'Le programme a été ajouté avec succès.');
+
+        #$email = (new Email())
+           # ->from($this->getParameter('mailer_from'))
+            #->to('sami.ahamadi@laposte.net')
+           # ->subject('Une nouvelle série vient d\'être publiée !')
+            #->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+
+        #$mailer->send($email);
         // Deal with the submitted data
         // For example : persiste & flush the entity
         // And redirect to a route that display the result

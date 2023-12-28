@@ -5,17 +5,15 @@ namespace App\Entity;
 use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Mime\Message;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
-#[UniqueEntity(
-    Fields: ['title'],
-    message: 'ce titre existe déja'
-)]
+#[UniqueEntity('title')]
+#[Vich\Uploadable]
 
 class Program
 {
@@ -40,6 +38,9 @@ class Program
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
+
+    #[Vich\UploadableField(mapping: 'poster_file', fileNameProperty: 'poster')]
+    private ?File $posterFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -210,5 +211,16 @@ class Program
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function setPosterFile(File $image = null): Program
+    {
+        $this->posterFile = $image;
+        return $this;
+    }
+
+    public function getPosterFile(): ?File
+    {
+        return $this->posterFile;
     }
 }

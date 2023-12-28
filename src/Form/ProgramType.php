@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 
 
@@ -25,7 +26,6 @@ class ProgramType extends AbstractType
         $builder
             ->add('title', TextType::class) 
             ->add('synopsis', TextType::class)
-            ->add('poster', TextType::class)
             ->add('country', TextType::class)
             ->add('year', IntegerType::class)
             ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name'])
@@ -33,9 +33,14 @@ class ProgramType extends AbstractType
                 'class' => Actor::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => true])
+            ->add('posterFile', VichFileType::class, [
+                'required'      => false,
+                'allow_delete'  => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
             ]);
-        ;
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

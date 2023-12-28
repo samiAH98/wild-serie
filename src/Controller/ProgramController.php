@@ -48,13 +48,13 @@ class ProgramController extends AbstractController
 
         $this->addFlash('success', 'Le programme a été ajouté avec succès.');
 
-        #$email = (new Email())
-           # ->from($this->getParameter('mailer_from'))
-            #->to('sami.ahamadi@laposte.net')
-           # ->subject('Une nouvelle série vient d\'être publiée !')
-            #->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+        $email = (new Email())
+            ->from($this->getParameter('mailer_from'))
+            ->to('sami.ahamadi@laposte.net')
+            ->subject('Une nouvelle série vient d\'être publiée !')
+            ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
 
-        #$mailer->send($email);
+        $mailer->send($email);
         // Deal with the submitted data
         // For example : persiste & flush the entity
         // And redirect to a route that display the result
@@ -123,12 +123,10 @@ public function showEpisode(Program $program, Season $season, Episode $episode):
         ]);
     }
 
-     #[Route('/delete/{slug}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+     #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
-            $slug = $slugger->slug($program->getTitle());
-            $program->setSlug($slug);
             $entityManager->remove($program);
             $entityManager->flush();
 

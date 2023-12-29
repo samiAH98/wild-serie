@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProgramRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -12,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
+#[ORM\Table(name: "program")]
 #[UniqueEntity('title')]
 #[Vich\Uploadable]
 
@@ -25,22 +28,29 @@ class Program
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le titre ne doit pas être vide')]
     #[Assert\Length( max:255, maxMessage:'Le titre doit faire au moins 255 caractères')]
-    private $title;
+    private ?string $title;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank(message: 'Ne doit pas être vide')]
     #[Assert\Regex(
         pattern: '/Plus belle la vie/',
-        match: false,
         message: 'On parle de vraies séries ici',
+        match: false,
     )]
-    private $synopsis;
+    private ?string $synopsis;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
 
     #[Vich\UploadableField(mapping: 'poster_file', fileNameProperty: 'poster')]
+    #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
     private ?File $posterFile = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DatetimeInterface $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -53,7 +63,7 @@ class Program
     private ?int $year = null;
 
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class)]
-    private $seasons;
+    private Collection $seasons;
 
     #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'programs')]
     private Collection $actors;
@@ -213,9 +223,14 @@ class Program
         return $this;
     }
 
+
     public function setPosterFile(File $image = null): Program
     {
         $this->posterFile = $image;
+        if ($image) {
+            $this->updatedAt = new DateTime('now');
+        }
+
         return $this;
     }
 

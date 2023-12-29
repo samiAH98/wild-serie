@@ -11,6 +11,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProgramRepository;
 use App\Form\CategoryType;
 use App\Entity\Category;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/category', name: 'category_')]
@@ -27,6 +28,7 @@ class CategoryController extends AbstractController
     }
     
     #[Route('/new', name: 'new')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager) : Response
 {
     // Create a new Category Object

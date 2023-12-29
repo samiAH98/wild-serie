@@ -16,6 +16,7 @@ use App\Service\ProgramDuration;
 use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -43,6 +44,7 @@ class ProgramController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
         $slug = $slugger->slug($program->getTitle());
         $program->setSlug($slug);
+        $program->setOwner($this->getUser());
         $entityManager->persist($program);
         $entityManager->flush();
 
@@ -107,6 +109,11 @@ public function showEpisode(Program $program, Season $season, Episode $episode):
         $program = $programRepository->findOneBy(['slug' => $slug]);
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
+
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());

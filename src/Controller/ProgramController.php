@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\SearchProgramType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
@@ -22,12 +23,26 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository): Response
+    public function index(Request $request,ProgramRepository $programRepository): Response
     {
-        $programs = $programRepository->findAll();
+         /*$programs = $programRepository->findAll();
 
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
+        ]);*/
+        $form = $this->createForm(SearchProgramType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
+
+        return $this->render('program/index.html.twig', [
+            'programs' => $programs,
+            'form' => $form,
         ]);
     }
 
